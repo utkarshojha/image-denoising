@@ -805,18 +805,7 @@ def predict_denoised_image():
               denoised_img[i:i+blockx,j:j+blocky]=temp_matrix1
           elif j==0 and i>0:  
              # x=numpy.mean(numpy.array([overlappedy,temp_matrix1[:blocky-stride,:]]),axis=0)
-              #print('yo done')                
-                     
-#              print('This is the second block in the y direction')
-#              print(temp_matrix1)
-#              print('This is the second block in y direction according to testsety')
-#              print
-#              print('This is the overlapped block of 4x10 in the y direction')
-#              print(temp_matrix1[:blocky-stride , :])                  
-#               temp_matrix1[:,:blockx-stride]=numpy.mean(numpy.array([overlappedx,temp_matrix1[:,:blockx-stride]]),axis=0)              
-#              print('This is the averaged block')
-#               
-#              #sys.exit(1)                
+                           
                temp_matrix1[:blocky-stride,:]=numpy.mean(numpy.array([y_overlapped[j/stride],temp_matrix1[:blocky-stride,:]]),axis=0)
                y_overlapped[j/stride]=temp_matrix1[stride: , :]
 #              print(temp_matrix1[:blocky-stride , :])
@@ -830,7 +819,7 @@ def predict_denoised_image():
               denoised_img[i:i+blockx,j:j+blocky]=temp_matrix1
               overlappedx=temp_matrix1[: , stride:]
               y_overlapped[j/stride]=temp_matrix1[stride: , :]
-          #print('******')    
+             
           j=j+stride
           overlappedx=temp_matrix1[: , stride:]
 
@@ -840,22 +829,7 @@ def predict_denoised_image():
        i=i+stride
       # a=a+stride
        j=0  
-      # b=blockx/2
-   #    print('hi')        
-    #   print('i= '+str(i) + ', j = '+str(j))  
-     #  print('i= '+str(i) + ', j = '+str(j))
-    # compile a predictor function
-   # print('The first block of the denoized image is ')
-   # print(denoised_img[0:10,0:10])
-   # print('The dimension of the original image matrix was')
-   # print(i_matrix.shape)
-    #print('The dimension of the output denoised image is ')
-    #print(denoised_img.shape)
-#    print('This is the block starting from (0,0) in image matrix')
-#    print(x[3220:3230 , 1050:1060])
-#    print('This is the correspondingblock satrting at (0,0) in the denoised image')
-#    print(denoised_img[3220:3230 , 1050:1060])
-    #final_denoised_img = numpy.reshape(denoised_img , (test_scn,4000))
+ 
     denoised_img.tofile('/AKASHDP_DATA3/ankur/train/mydenoised_band1')
     print('Done saving the image')
     new_mean=denoised_img.mean()
