@@ -248,9 +248,7 @@ def test_SdA(finetune_lr=0.2, pretraining_epochs=30,
             tr_intermy = None
             del tr_intermx
             del tr_intermy
-                ###############
-                
-                ############### 
+
             while j < n_ex:
                   x_tr_x = numpy.random.randint(t*part,(t+1)*part-blockx-1)
                   y_tr_x = numpy.random.randint(0,npix-blocky-1)
@@ -305,9 +303,7 @@ def test_SdA(finetune_lr=0.2, pretraining_epochs=30,
             tr_intermy = None
             del tr_intermx
             del tr_intermy
-            ###############
-            
-            ############### 
+
             for j in range(n_ex):
               x_tr_x = numpy.random.randint(0,scn_x-blockx-1)
               y_tr_x = numpy.random.randint(0,npix-blocky-1)
@@ -426,8 +422,7 @@ def test_SdA(finetune_lr=0.2, pretraining_epochs=30,
     datasets = ([train_set_x,train_set_y],[valid_set_x,valid_set_y],[test_set_x,test_set_y])
     
     
-    ################################################################
-    # compute number of minibatches for training, validation and testing
+
     n_train_batches = train_set_x.get_value(borrow=True).shape[0]
     n_train_batches //= batch_size
 
@@ -435,12 +430,7 @@ def test_SdA(finetune_lr=0.2, pretraining_epochs=30,
     # start-snippet-3
     print('... building the model')
     # construct the stacked denoising autoencoder class
-#    sda = SdA(
-#        numpy_rng=numpy_rng,
-#        n_ins=28 * 28,
-#        hidden_layers_sizes=[1000, 1000, 1000],
-#        n_outs=10
-#    )
+
     sda = SdA(
         numpy_rng=numpy_rng,
         n_ins=blockx*blocky,
@@ -619,15 +609,13 @@ def predict_denoised_image():
     test_ar = numpy.fromfile(s , numpy.float32)
     
     npix=4000
-    test_scn = 4000#len(test_ar)/npix    
+    test_scn = 4000  
     stride_given=14
     blockx=26
     blocky=26
-   # n_blocks = (test_scn*npix)/(blockx*blocky)
     
     test_ar = test_ar[:test_scn*npix]
     ex_ar = ex_ar[:test_scn*npix]
-    #print('Image loaded as 1d matrix')   
     i_matrix = numpy.reshape(test_ar , (test_scn,npix))
     x = numpy.reshape(ex_ar , (test_scn,npix))
     x.tofile('/AKASHDP_DATA3/ankur/train/actual_denoised_band1')
@@ -635,17 +623,7 @@ def predict_denoised_image():
     mean_original=i_matrix.mean()
     var_original=i_matrix.var()
     i=7
-    
-  
-    
-   
-
-
-    
-        
-   # sys.exit(1)
-
-    
+	
     print('Image loaded as 2d matrix')  
     def patchify(img, patch_shape):
 	    img = numpy.ascontiguousarray(img)  # won't make a copy if not needed
@@ -664,27 +642,8 @@ def predict_denoised_image():
 
 
     patches = patchify(i_matrix, (blockx,blocky))
-		#print(patches)
     test_set_x = numpy.ascontiguousarray(patches)
     test_set_x.shape = (-1, blockx**2)
-#    print('Shape of the input matrix')
-#    print(test_set_x.shape)
-#    print(test_set_x[248003])
-    #print(test_set_x[248004])
-    #sys.exit(0)
-#    print('len=')
-#    print(len(test_set_x))
-#    print('This is the first 10x10 patch of the input')
-#    print(test_set_x[0])
-#    print('This is the second 10x10 patch in the input')
-#    print(test_set_x[1])
-#    print('This is the lower 10x10 patch')
-#    print((npix-blockx)/stride_given + 2)
-#    print(test_set_x[572])
-#    print('This is the first patch of the third row')
-#    print(test_set_x[326040])
-#    sys.exit(1)
-	#	contiguous_patches.shape = (-1, 4**2)
 
     min_a = test_set_x.min(axis=1)
     max_a = test_set_x.max(axis=1)
@@ -692,116 +651,57 @@ def predict_denoised_image():
     abc=test_set_x
     test_set_x = (test_set_x.transpose() - min_a).transpose()
     test_set_x = (test_set_x.transpose() / dif).transpose()
-  #  print('This is the first block')    
-  #  print(test_set_x[0])
-   # print('************************')
-   # print('This is the second block')
-   # print(test_set_x[1])
-   
 
     test_set_x = theano.shared(numpy.asarray(test_set_x,
                                                dtype=theano.config.floatX),
                                  borrow=True) 
     print('Done loading the image as test_set_x')  
-   # print('Dimension of the test_set_x is ')
-   # print(test_set_x.get_value().shape)
     predict = theano.function(inputs = [sda.x] , outputs = [sda.logLayer.p_y_given_x])
     test_set_y = predict(test_set_x.get_value())
     
- #   check=test_set_y
     print('Got the output sa the denoised image')
 
    
     denoised_img = i_matrix ######modified
-    #denoised_img = numpy.zeros((test_scn,npix))    
-    #print(denoised_img.shape)
-    #sys.exit(1)
     print('Done transformation')    
     i=0
     j=0
     k=0
     c=0
     y_overlapped=[]
-#    a=blockx/2
-#    b=blocky/2
+
     stride=stride_given
     while i <(test_scn-blockx):
        while j < (npix-blocky):
          
           temp_matrix = abc[k]
-          #print('This is the first block of the image matrix')
-         # print(numpy.reshape(temp_matrix,(1,100)))            
           min_a = temp_matrix.min()
-        #  print('This is the minimum of the first block')
-       #   print(min_a)
           max_a = temp_matrix.max()
-      #    print('This is the maximim of the first block' )
-     #     print(max_a)
           dif = max_a - min_a 
-         # print('This the difference of the min and max' )
-        #  print(dif)
-          #print('The dimesion of check is ')
-          #print(check.shape)
+
           temp_matrix1 = test_set_y[0][k]
-          #print('This is the matrix read from test_set_y') 
-         # print(temp_matrix1)
-        #  print(temp_matrix1.shape)
-          #print('The dimension of the temp1_matrix is')
-          
-          #print(temp_matrix1.shape)
-          
+
           k=k+1
           temp_matrix1 = (temp_matrix1 * dif) + min_a
-        
-         # print('This is the first blck of the output image normalized')
-          #print('The dimension of the temp1_matrix is')
-          #print(temp_matrix1.shape)
-          
+                  
           temp_matrix1=numpy.reshape(temp_matrix1,(blockx,blocky))
-#          if i==0 and j==0:
-#              print('This is the actual op')
-#              print(test_set_y[0][0])
-       
-          
-          
-          
-          
-         # print('This is the reshaped block')
-        #  print(temp_matrix1)
+
        
 #          print('Shape of denoised portion is ')
-#          print(denoised_img[p:p+stride,q:q+stride].shape)
-#          print('Shape of assigning matrix')
-#          print(temp_matrix1[(blockx-stride)/2:(blockx-stride)/2+stride,(blocky- stride)/2:(blocky-stride)/2+stride].shape)            
-          #denoised_img[p:p+stride,q:q+stride]=temp_matrix1[(blockx-stride)/2:(blockx-stride)/2+stride,(blocky- stride)/2:(blocky-stride)/2+stride] 
-         # print('The first block of the denoised image is')
-         # print(denoised_img[i:i+blockx,j:j+blocky])
-         # sys.exit(1)
+
+
           if i==0 and j==0:
               denoised_img[i:i+blockx,j:j+blocky]=temp_matrix1
               overlappedx=temp_matrix1[: , stride:]
               y_overlapped.append(temp_matrix1[stride: , :])
               c=c+1
-#              print('This is the first block of 10x10')
-#              print(temp_matrix1)
-#              print('This is the overlapping block of 10x4 in the x direction')
-#              print(overlappedx)
-#              print('This is the overlapping block of 4x10 in the y direction')
-#              print(overlappedy)
+
           elif i==0 and j>0:
-#              print('This is the second block in the x direction')
-#              print(temp_matrix1)
-#              print('This is the overlapped block of 10x4 in the x direction')
-#              print(temp_matrix1[: , :blockx-stride])  
-            
+
               temp_matrix1[:,:blockx-stride]=numpy.mean(numpy.array([overlappedx,temp_matrix1[:,:blockx-stride]]),axis=0)              
-#              print('This is the averaged block')
-#              print(temp_matrix1[: , :blockx-stride])  
-#              sys.exit(1) 
+
               y_overlapped.append(temp_matrix1[stride: , :])
-#              print('Shape of denoised img here is ')
-#              print(denoised_img[i:i+blockx,j:j+blocky].shape)
-#              print(j)                   
+                  
               denoised_img[i:i+blockx,j:j+blocky]=temp_matrix1
           elif j==0 and i>0:  
              # x=numpy.mean(numpy.array([overlappedy,temp_matrix1[:blocky-stride,:]]),axis=0)
@@ -821,11 +721,7 @@ def predict_denoised_image():
               y_overlapped[j/stride]=temp_matrix1[stride: , :]
              
           j=j+stride
-          overlappedx=temp_matrix1[: , stride:]
-
-          
-       
-       #print('hoho')        
+          overlappedx=temp_matrix1[: , stride:]               
        i=i+stride
       # a=a+stride
        j=0  
