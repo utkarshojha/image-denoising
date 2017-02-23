@@ -437,10 +437,9 @@ def test_SdA(finetune_lr=0.2, pretraining_epochs=30,
         hidden_layers_sizes=[2620,2620],
         n_outs=blockx*blocky
     )
-    # end-snippet-3 start-snippet-4
-    #########################
-    # PRETRAINING THE MODEL #
-    #########################
+
+    # Pretraining phase
+   
     print('... getting the pretraining functions')
     pretraining_fns = sda.pretraining_functions(train_set_x=train_set_x,
                                                 batch_size=batch_size)
@@ -468,12 +467,11 @@ def test_SdA(finetune_lr=0.2, pretraining_epochs=30,
     print(('The pretraining code for file ' +
            os.path.split(__file__)[1] +
            ' ran for %.2fm' % ((end_time - start_time) / 60.)), file=sys.stderr)
-    # end-snippet-4
-    ########################
-    # FINETUNING THE MODEL #
-    ########################
 
-    # get the training, validation and testing function for the model
+    # Finetuning phase
+    
+
+    
     print('... getting the finetuning functions')
          
     train_fn, validate_model, test_model = sda.build_finetune_functions(
@@ -508,7 +506,7 @@ def test_SdA(finetune_lr=0.2, pretraining_epochs=30,
     import matplotlib.pyplot as plt
     while (epoch < training_epochs ) :
         epoch = epoch + 1
-        #alpha=finetune_lr/(1+(finetune_lr*beta*epoch))
+        alpha=finetune_lr/(1+(finetune_lr*beta*epoch))
         
         epoch_plt.append(epoch)
         minibatch_avg_cost=[]
