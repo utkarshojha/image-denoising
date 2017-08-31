@@ -8,10 +8,18 @@ Unfortunately, the complete data on which I actually trained this model cannot b
 ```
 python 2.7, theano
 ```
-# Sample results
+# Results
 
-![](./data/band1_noisy1.png =100x100) ![](/data/band1_denoised1.png)
-![](./data/band1_noisy1.png =100x20)
+## Graphs
+### Variation of training process with different patch size
+![](/graphs/patches_plot.png)
+### Variation of training process with different number of hidden layers
+![](/graphs/variation_with_no_of_hidden_layers1.png)
+### Variation of training process with different sizes of hidden layers
+![](/graphs/variation_with_size_of_hidden_layers.png)
+
+![](./data/band1_noisy1.png | width=100) ![](/data/band1_denoised1.png | width=100)
+![](./data/band1_noisy1.png | width=100)
 
 
 
