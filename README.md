@@ -18,8 +18,6 @@ python 2.7, theano
 ### Variation of training process with different sizes of hidden layers
 ![](/graphs/variation_with_size_of_hidden_layers.png)
 
-![](./data/band1_noisy1.png | width=100) ![](/data/band1_denoised1.png | width=100)
-![](./data/band1_noisy1.png | width=100)
 
 
 
