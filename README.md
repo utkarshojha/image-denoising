@@ -18,7 +18,7 @@ In this code files like <strong>/AKASHDP_DATA3/ankur/train/A1-NAO-25-FEB-2016-10
 For training your own model, set the desired configuration of the stacked autoencoders and ensure the availability of suitable data in the form of binary files. Run:
 
 ```
-python denoise_function
+python denoise_function.py
 ```
  
 
