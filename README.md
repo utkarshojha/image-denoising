@@ -9,6 +9,19 @@ Unfortunately, the complete data on which I actually trained this model cannot b
 ```
 python 2.7, theano
 ```
+# Data
+
+In this code files like <strong>/AKASHDP_DATA3/ankur/train/A1-NAO-25-FEB-2016-100907-R2-1_b1.rad_boost </strong>are binary files which contain the noisy and denoised images during training. The function <strong>read_filename</strong> reads these binary files and conversts them into stacked numpy arrays suitable for training. 
+
+# Training
+
+For training your own model, set the desired configuration of the stacked autoencoders and ensure the availability of suitable data in the form of binary files. Run:
+
+```
+python denoise_function
+```
+ 
+
 # Results
 
 ## Graphs
